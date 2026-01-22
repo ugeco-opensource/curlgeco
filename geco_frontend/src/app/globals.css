@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import "prismjs/themes/prism-tomorrow.css";
+
+:root {
+  --ugeco-bg: #070b18;
+  --ugeco-surface: #0b1224;
+  --ugeco-border: rgba(255, 255, 255, 0.06);
+  --ugeco-primary: #2f6bff;
+  --ugeco-secondary: #00d4ff;
+  --ugeco-text: #eaf0ff;
+  --ugeco-muted: rgba(234, 240, 255, 0.7);
+  --ugeco-radius: 18px;
+  --ugeco-shadow: 0 20px 40px rgba(3, 8, 20, 0.55), 0 6px 18px rgba(47, 107, 255, 0.18);
+}
+
+[data-theme="light"] {
+  --ugeco-bg: #f4f6ff;
+  --ugeco-surface: #ffffff;
+  --ugeco-border: rgba(16, 24, 40, 0.12);
+  --ugeco-primary: #2f6bff;
+  --ugeco-secondary: #00a8d9;
+  --ugeco-text: #0b1224;
+  --ugeco-muted: rgba(11, 18, 36, 0.65);
+  --ugeco-shadow: 0 18px 32px rgba(47, 107, 255, 0.12);
+}
+
+@theme inline {
+  --color-background: var(--ugeco-bg);
+  --color-foreground: var(--ugeco-text);
+  --color-primary: var(--ugeco-primary);
+  --color-secondary: var(--ugeco-secondary);
+  --color-surface: var(--ugeco-surface);
+  --color-border: var(--ugeco-border);
+  --color-muted: var(--ugeco-muted);
+  --radius-base: var(--ugeco-radius);
+  --font-sans: var(--font-sora);
+  --font-mono: var(--font-jetbrains);
+}
+
+* {
+  border-color: var(--ugeco-border);
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(47, 107, 255, 0.28), transparent 60%),
+    radial-gradient(900px 500px at 80% 0%, rgba(0, 212, 255, 0.18), transparent 55%),
+    var(--ugeco-bg);
+  color: var(--ugeco-text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: rgba(47, 107, 255, 0.35);
+}
+
+code {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(234, 240, 255, 0.25) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(234, 240, 255, 0.2);
+  border-radius: 999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bg-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(11, 18, 36, 0.9), rgba(11, 18, 36, 0.6));
+  border: 1px solid var(--ugeco-border);
+  border-radius: var(--ugeco-radius);
+  box-shadow: var(--ugeco-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.card-glow {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 60px rgba(3, 8, 20, 0.45);
+}
+
+.tag-gradient {
+  background: linear-gradient(90deg, rgba(47, 107, 255, 0.3), rgba(0, 212, 255, 0.25));
+}
+
+.prose a {
+  color: var(--ugeco-secondary);
+}
+
+.prose pre {
+  background: rgba(6, 10, 22, 0.9);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.prose code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.prose blockquote {
+  border-left: 3px solid rgba(47, 107, 255, 0.5);
+  padding-left: 16px;
+  color: rgba(234, 240, 255, 0.8);
+}
