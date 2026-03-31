@@ -5,7 +5,7 @@ UGECO Model Lab is a standard Next.js App Router project.
 ## Local build
 
 ```bash
-cd geco_frontend
+cd curlgeco_frontend
 npm install
 npm run build
 npm run start

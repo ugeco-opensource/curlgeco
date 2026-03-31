@@ -1,13 +1,13 @@
 # Agent Context
 
-UGECO Model Lab is a Next.js (App Router) frontend for testing Hugging Face and OpenAI-compatible chat endpoints. It supports local endpoint management, streaming chat, batch testing, and logs replay. All frontend code is located in `geco_frontend`.
+UGECO Model Lab is a Next.js (App Router) frontend for testing Hugging Face and OpenAI-compatible chat endpoints. It supports local endpoint management, streaming chat, batch testing, and logs replay. All frontend code is located in `curlgeco_frontend`.
 
 ## Key locations
 
-- Frontend app: `geco_frontend/src`
-- API proxy: `geco_frontend/src/app/api/chat/route.ts`
-- Core store: `geco_frontend/src/lib/store.ts`
-- Design tokens: `geco_frontend/src/app/globals.css`
+- Frontend app: `curlgeco_frontend/src`
+- API proxy: `curlgeco_frontend/src/app/api/chat/route.ts`
+- Core store: `curlgeco_frontend/src/lib/store.ts`
+- Design tokens: `curlgeco_frontend/src/app/globals.css`
 
 ## UX notes
 

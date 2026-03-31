@@ -1,6 +1,6 @@
 # Submodule Documentation
 
-The main frontend application is contained within `geco_frontend`.
+The main frontend application is contained within `curlgeco_frontend`.
 
 ## Focus areas
 
