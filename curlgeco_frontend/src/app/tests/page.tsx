@@ -223,13 +223,13 @@ export default function TestsPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "ugeco-test-results.json";
+    link.download = "curlgeco-test-results.json";
     link.click();
     URL.revokeObjectURL(url);
   };
 
   const copyMarkdown = async () => {
-    const lines = ["# UGECO Model Lab Report", "", `Generated: ${new Date().toLocaleString()}`, ""];
+    const lines = ["# curlgeco Evaluation Report", "", `Generated: ${new Date().toLocaleString()}`, ""];
     for (const testCase of testCases) {
       lines.push(`## ${testCase.name}`);
       lines.push(`Prompt: ${testCase.prompt}`);
@@ -250,7 +250,9 @@ export default function TestsPage() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Testing Suite</h1>
-          <p className="text-sm text-muted">Run batch prompts, compare endpoints, and export results.</p>
+          <p className="text-sm text-muted">
+            Run batch prompts, compare endpoints, and export curlgeco evaluation reports.
+          </p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
@@ -376,7 +378,7 @@ export default function TestsPage() {
           <div className="grid gap-4 lg:grid-cols-2">
             {testCases.length === 0 ? (
               <Card className="glass-panel p-8 text-center text-sm text-muted">
-                Create your first test case to begin benchmarking.
+                Create your first test case to begin benchmarking in curlgeco.
               </Card>
             ) : (
               testCases.map((testCase) => (

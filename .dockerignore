@@ -1,0 +1,6 @@
+.git
+curlgeco_frontend/node_modules
+curlgeco_frontend/.next
+curlgeco_frontend/.vercel
+scripts/venv
+ugeco-infra

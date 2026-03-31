@@ -1,13 +1,8 @@
-# Submodule Documentation
+# Submodule Context
 
-The main frontend application is contained within `curlgeco_frontend`.
+This repo keeps the frontend code directly under `curlgeco_frontend`, but the documentation in this folder preserves the `frontend_matchmaker` submodule-style context expected by the parent project workflow.
 
-## Focus areas
+## Docs
 
-- `src/app`: App Router pages and API proxy
-- `src/components`: UI + layout components
-- `src/lib`: Store, types, and streaming helpers
-
-## Current focus
-
-`submodule/frontend_matchmaker` is represented by the endpoint manager, which stores multiple connections and allows testing via `/api/chat`.
+- `frontend_matchmaker/README.md`
+- `frontend_matchmaker/Agent.md`

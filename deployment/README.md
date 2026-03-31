@@ -1,21 +1,59 @@
-# Deployment Notes
+# curlgeco Deployment
 
-UGECO Model Lab is a standard Next.js App Router project.
+This directory contains the application deployment layer for curlgeco. Shared ingress controllers, Azure DNS, cert-manager issuer setup, and private admin tooling remain in `ugeco-infra/`.
 
-## Local build
+## Contents
+
+- `deploy.sh`: Helm deploy helper
+- `charts/curlgeco/`: application Helm chart
+
+## Local container run
 
 ```bash
-cd curlgeco_frontend
-npm install
-npm run build
-npm run start
+docker compose up --build
 ```
 
-## Environment
+The root container setup serves the standalone Next.js build on port `3000`.
 
-- Node.js 18+
-- Ubuntu 22.04 compatible
+## Helm target
 
-## Proxy
+- namespace: `curlgeco`
+- host: `curlgeco.ugeco.in`
+- ingress class: `nginx`
+- cluster issuer: `letsencrypt-ugeco-dns`
 
-The `/api/chat` route forwards requests to Hugging Face endpoints and streams tokens back to the client. Ensure outbound HTTPS access to Hugging Face endpoints in the target environment.
+These defaults are aligned with the shared AKS platform notes in `ugeco-infra/README.md`.
+
+## Deploy
+
+```bash
+./deployment/deploy.sh
+```
+
+Equivalent manual command:
+
+```bash
+helm upgrade --install curlgeco deployment/charts/curlgeco \
+  --namespace curlgeco \
+  --create-namespace \
+  -f deployment/charts/curlgeco/values.yaml
+```
+
+## Values to review
+
+- `image.repository`
+- `image.tag`
+- `env.NEXT_PUBLIC_SUPABASE_URL`
+- `env.NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `env.NEXT_PUBLIC_GTM_ID`
+- `env.NEXT_PUBLIC_REQUIRE_AUTH`
+
+## Verification
+
+```bash
+kubectl get pods -n curlgeco
+kubectl get svc -n curlgeco
+kubectl get ingress -n curlgeco
+kubectl describe ingress -n curlgeco curlgeco
+curl -I https://curlgeco.ugeco.in/api/health
+```

@@ -78,7 +78,7 @@ export default function LogsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Logs</h1>
-        <p className="text-sm text-muted">Inspect every request and replay with one click.</p>
+        <p className="text-sm text-muted">Inspect every request, latency profile, and replay path.</p>
       </div>
       {logs.length === 0 ? (
         <Card className="glass-panel p-8 text-center text-sm text-muted">
@@ -94,7 +94,9 @@ export default function LogsPage() {
                   <p className="text-xs text-muted">{new Date(log.createdAt).toLocaleString()}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className="tag-gradient text-foreground">{log.endpointId}</Badge>
+                  <Badge className="tag-gradient text-foreground">
+                    {endpoints.find((endpoint) => endpoint.id === log.endpointId)?.name ?? log.endpointId}
+                  </Badge>
                   {log.success ? (
                     <Badge className="bg-emerald-500/20 text-emerald-200">Success</Badge>
                   ) : (

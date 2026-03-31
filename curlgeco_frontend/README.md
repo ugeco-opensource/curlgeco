@@ -1,52 +1,49 @@
-# UGECO Model Lab (Frontend)
+# curlgeco Frontend
 
-UGECO Model Lab is a premium Hugging Face model testing suite + chatbot playground built with Next.js (App Router). It connects to Hugging Face Router or dedicated endpoints using the OpenAI-compatible `/v1/chat/completions` format, supports streaming, and includes a test harness + logs panel.
+curlgeco is a local-first AI playground built with Next.js App Router. It connects to Hugging Face router, Hugging Face dedicated endpoints, or any OpenAI-compatible `/v1/chat/completions` backend through a Next.js proxy.
 
 ## Features
 
-- Endpoint manager (HF Router, HF Dedicated Endpoint, OpenAI-compatible)
-- Chat playground with streaming tokens, system prompts, and markdown rendering
-- Testing suite with batch prompts + compare mode
-- Observability logs with replay
-- Local-only persistence via `localStorage`
+- Endpoint manager with connection testing
+- Streaming chat playground with markdown rendering
+- Batch test suite with compare mode
+- Replayable request logs
+- Optional Supabase signup and login
+- Optional Google Tag Manager
+- Theme toggle, import/export, and local storage migration from the old app key
 
-## Getting started
+## Local setup
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Default runtime env comes from the repo-root `.env`. For direct frontend-only runs, export the same variables in your shell or create a local env file.
 
-## Configuration
+## Runtime env
 
-### HF Router example
+- `NEXT_PUBLIC_APP_URL`
+- `NEXT_PUBLIC_SUPPORT_EMAIL`
+- `NEXT_PUBLIC_GTM_ID`
+- `NEXT_PUBLIC_REQUIRE_AUTH`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-- **Base URL**: `https://router.huggingface.co/v1`
-- **API Key**: `<HF_TOKEN>`
-- **Model**: `Qwen/Qwen2.5-7B-Instruct` (or any router-supported model)
+## API routes
 
-### HF Dedicated Endpoint example
+- `POST /api/chat`: proxies OpenAI-compatible chat completion requests
+- `GET /api/health`: readiness and liveness probe
 
-- **Base URL**: `https://YOUR_ENDPOINT.huggingface.cloud/v1`
-- **API Key**: `<HF_TOKEN>`
-- **Model**: provided by your endpoint
-
-## Streaming
-
-All chat requests go through the server-side proxy at `POST /api/chat`. When `stream: true`, the proxy forwards SSE responses so the client can render tokens as they arrive.
-
-## Scripts
+## Build and verification
 
 ```bash
-npm run dev
-npm run build
-npm run start
 npm run lint
+npm run build
 ```
 
 ## Notes
 
-- Endpoint configs + API keys are stored locally in the browser. No server-side persistence yet.
-- `.env.example` is included for future expansion.
+- Endpoint API keys stay in browser storage in the current implementation.
+- Supabase currently covers authentication only; workspace sync can be added later.
+- Security headers are set in `next.config.ts`.

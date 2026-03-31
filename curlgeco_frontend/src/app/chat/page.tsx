@@ -210,7 +210,7 @@ export default function ChatPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${activeThread.title.replace(/\s+/g, "-").toLowerCase()}.json`;
+    link.download = `curlgeco-${activeThread.title.replace(/\s+/g, "-").toLowerCase()}.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -247,9 +247,9 @@ export default function ChatPage() {
       <Card className="glass-panel flex h-[70vh] flex-col gap-4 p-4">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <p className="text-lg font-semibold text-foreground">Chat Playground</p>
+            <p className="text-lg font-semibold text-foreground">Chat Lab</p>
             <p className="text-xs text-muted">
-              Streaming + markdown rendering. Stop a stream anytime.
+              Streaming responses, markdown rendering, and per-thread model controls.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -298,7 +298,7 @@ export default function ChatPage() {
             ))
           ) : (
             <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 p-8 text-center text-sm text-muted">
-              Start by sending a prompt.
+              Start by sending a prompt into the active curlgeco thread.
             </div>
           )}
         </div>
@@ -348,7 +348,7 @@ export default function ChatPage() {
       <Card className="glass-panel h-[70vh] space-y-4 p-4">
         <div>
           <p className="text-sm font-semibold text-foreground">Thread settings</p>
-          <p className="text-xs text-muted">Per-thread model + parameters.</p>
+          <p className="text-xs text-muted">Per-thread endpoint, model, and response controls.</p>
         </div>
         <div className="space-y-4">
           <div className="space-y-2">

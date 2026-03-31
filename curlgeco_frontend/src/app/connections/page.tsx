@@ -153,9 +153,9 @@ export default function ConnectionsPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Connections</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Endpoint Connections</h1>
           <p className="text-sm text-muted">
-            Store endpoints locally and test them against the OpenAI-compatible chat API.
+            Store endpoints locally, validate them through the proxy, and keep curlgeco deployment-ready.
           </p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -167,7 +167,9 @@ export default function ConnectionsPage() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Add connection</DialogTitle>
-              <DialogDescription>Keys are stored in localStorage only.</DialogDescription>
+              <DialogDescription>
+                Secrets stay in browser storage unless you wire server persistence later.
+              </DialogDescription>
             </DialogHeader>
             <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -250,7 +252,9 @@ export default function ConnectionsPage() {
         <Card className="glass-panel p-8 text-center">
           <PlugZap className="mx-auto h-10 w-10 text-primary" />
           <p className="mt-4 text-lg font-semibold text-foreground">No endpoints yet</p>
-          <p className="text-sm text-muted">Add a Hugging Face router or dedicated endpoint to begin testing.</p>
+          <p className="text-sm text-muted">
+            Add a Hugging Face router or dedicated endpoint to start using curlgeco.
+          </p>
         </Card>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypePrism from "rehype-prism-plus";
@@ -66,7 +66,11 @@ export default function Markdown({ content, className }: MarkdownProps) {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypePrism]}
         components={{
-          code: ({ inline, className, children }: any) => (
+          code: ({
+            inline,
+            className,
+            children,
+          }: ComponentProps<"code"> & { inline?: boolean }) => (
             <CodeBlock inline={inline} className={className}>
               {children}
             </CodeBlock>

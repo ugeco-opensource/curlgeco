@@ -1,30 +1,21 @@
-# UGECO Model Lab Design Notes
+# curlgeco Design Docs
 
-## Visual direction
+This folder contains the current system design for the curlgeco frontend and its immediate operational boundary.
 
-- Premium devtool feel (Linear/Vercel-inspired)
-- Deep navy background with soft radial gradients
-- Glassy panels + subtle borders
+## Files
 
-## Tokens (fallback)
+- `HLD.md`: high-level architecture and infra boundary
+- `LLD.md`: runtime topology, route behavior, state model, and env matrix
+- `open-api.yaml`: app-owned HTTP API contract
+- `schema.sql`: Supabase bootstrap schema for auth-adjacent product tables
 
-- Background: `#070B18`
-- Surface: `#0B1224`
-- Border: `rgba(255,255,255,0.06)`
-- Primary: `#2F6BFF`
-- Secondary: `#00D4FF`
-- Text: `#EAF0FF`
-- Muted text: `rgba(234,240,255,0.7)`
-- Radius: `18px`
+## Scope
 
-## Typography
+curlgeco still has no custom backend. The design therefore centers on:
 
-- UI font: Sora
-- Code font: JetBrains Mono
-
-## Layout
-
-- Left sidebar navigation (icons + labels)
-- Topbar with endpoint selector + model input
-- Main canvas uses cards + panels
-- Mobile nav shows horizontal chips
+- Next.js frontend pages and route handlers
+- Supabase auth for signup and login
+- local-first browser persistence
+- GTM integration through runtime env
+- Docker packaging
+- Helm deployment to the UGECO AKS public ingress

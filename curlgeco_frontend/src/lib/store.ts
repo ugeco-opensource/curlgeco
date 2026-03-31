@@ -3,6 +3,7 @@
 import { nanoid } from "nanoid";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { APP_STORAGE_KEY, LEGACY_APP_STORAGE_KEY } from "@/lib/runtime-config";
 import type {
   AppSettings,
   ChatMessage,
@@ -192,8 +193,24 @@ export const useAppStore = create<AppState>()(
         })),
     }),
     {
-      name: "ugeco-model-lab",
-      storage: createJSONStorage(() => localStorage),
+      name: APP_STORAGE_KEY,
+      storage: createJSONStorage(() => ({
+        getItem: (key) => {
+          if (typeof window === "undefined") return null;
+          return localStorage.getItem(key) ?? localStorage.getItem(LEGACY_APP_STORAGE_KEY);
+        },
+        setItem: (key, value) => {
+          if (typeof window === "undefined") return;
+          localStorage.setItem(key, value);
+          if (key === APP_STORAGE_KEY) {
+            localStorage.removeItem(LEGACY_APP_STORAGE_KEY);
+          }
+        },
+        removeItem: (key) => {
+          if (typeof window === "undefined") return;
+          localStorage.removeItem(key);
+        },
+      })),
       partialize: (state) => ({
         endpoints: state.endpoints,
         threads: state.threads,

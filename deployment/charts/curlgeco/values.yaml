@@ -1,0 +1,75 @@
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+revisionHistoryLimit: 2
+
+imagePullSecrets: []
+
+podAnnotations: {}
+
+podSecurityContext:
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+
+image:
+  repository: matchmakerprodacr.azurecr.io/curlgeco-frontend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+env:
+  NODE_ENV: production
+  NEXT_PUBLIC_APP_URL: https://curlgeco.ugeco.in
+  NEXT_PUBLIC_SUPPORT_EMAIL: hello@ugeco.in
+  NEXT_PUBLIC_GTM_ID: ""
+  NEXT_PUBLIC_REQUIRE_AUTH: "false"
+  NEXT_PUBLIC_SUPABASE_URL: ""
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+readinessProbe:
+  path: /api/health
+  port: 3000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+livenessProbe:
+  path: /api/health
+  port: 3000
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 2
+  failureThreshold: 3
+
+ingress:
+  enabled: true
+  className: nginx
+  host: curlgeco.ugeco.in
+  path: /
+  pathType: Prefix
+  tlsSecretName: curlgeco-ugeco-in-tls
+  clusterIssuer: letsencrypt-ugeco-dns
+  annotations: {}

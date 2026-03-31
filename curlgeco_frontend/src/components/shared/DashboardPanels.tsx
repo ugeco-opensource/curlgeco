@@ -17,8 +17,10 @@ export default function DashboardPanels() {
     <div className="grid gap-6 lg:grid-cols-2">
       <Card className="glass-panel space-y-4">
         <div>
-          <p className="text-sm font-semibold text-foreground">Snapshot</p>
-          <p className="text-xs text-muted">What is configured right now.</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-foreground">
+            Workspace snapshot
+          </p>
+          <p className="text-xs text-muted">What curlgeco is carrying right now.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Badge className="tag-gradient text-foreground">{endpoints.length} endpoints</Badge>
@@ -28,8 +30,10 @@ export default function DashboardPanels() {
       </Card>
       <Card className="glass-panel space-y-4">
         <div>
-          <p className="text-sm font-semibold text-foreground">Recent activity</p>
-          <p className="text-xs text-muted">Latest tests and logs.</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-foreground">
+            Recent activity
+          </p>
+          <p className="text-xs text-muted">Latest tests and replayable logs.</p>
         </div>
         <div className="space-y-2">
           {recentLogs.length === 0 && recentTests.length === 0 ? (

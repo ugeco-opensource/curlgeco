@@ -31,6 +31,16 @@ export async function POST(req: Request) {
       body,
     });
 
+    if (!response.ok) {
+      const errorText = await response.text();
+      return new Response(errorText || "Upstream request failed", {
+        status: response.status,
+        headers: {
+          "Content-Type": response.headers.get("content-type") ?? "text/plain; charset=utf-8",
+        },
+      });
+    }
+
     if (stream) {
       if (!response.body) {
         return NextResponse.json({ error: "Streaming not supported" }, { status: 500 });

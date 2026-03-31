@@ -1,1 +1,10 @@
 scripts/venv
+ugeco-infra
+curlgeco_frontend/node_modules
+curlgeco_frontend/.next
+curlgeco_frontend/.vercel
+.env
+.env.local
+.env.development
+.env.production
+.env.test
