@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import { toast } from "sonner";
 import { Play, RefreshCcw } from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import { requestChatCompletion } from "@/lib/hf/chatCompletion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,18 +28,14 @@ export default function LogsPage() {
     setReplayId(logId);
     const start = performance.now();
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          endpoint,
-          model: entry.modelId,
-          messages: entry.request.messages.map(({ role, content }) => ({ role, content })),
-          temperature: entry.request.params.temperature,
-          max_tokens: entry.request.params.maxTokens,
-          top_p: entry.request.params.topP,
-          stream: false,
-        }),
+      const response = await requestChatCompletion({
+        endpoint,
+        model: entry.modelId,
+        messages: entry.request.messages.map(({ role, content }) => ({ role, content })),
+        temperature: entry.request.params.temperature,
+        max_tokens: entry.request.params.maxTokens,
+        top_p: entry.request.params.topP,
+        stream: false,
       });
       if (!response.ok) {
         const text = await response.text();

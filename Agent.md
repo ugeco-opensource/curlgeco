@@ -1,6 +1,6 @@
 # Agent Context
 
-curlgeco is a Next.js App Router AI playground. The app supports local endpoint management, streaming chat, batch testing, replayable logs, optional Supabase email authentication, and Google Tag Manager through runtime env.
+curlgeco is a Next.js App Router AI playground, built as a static export (`output: "export"`, no server/API routes). The app supports local endpoint management, streaming chat, batch testing, replayable logs, optional Supabase email authentication, and Google Tag Manager through build-time env. Provider calls are made directly from the browser to each configured endpoint's `/chat/completions` — there is no backend proxy.
 
 ## Repo layout
 
@@ -13,8 +13,7 @@ curlgeco is a Next.js App Router AI playground. The app supports local endpoint 
 - Frontend app: `submodule/curlgeco_frontend/src`
 - Runtime config: `submodule/curlgeco_frontend/src/lib/runtime-config.ts`
 - Auth provider: `submodule/curlgeco_frontend/src/components/providers/AuthProvider.tsx`
-- API proxy: `submodule/curlgeco_frontend/src/app/api/chat/route.ts`
-- Health probe: `submodule/curlgeco_frontend/src/app/api/health/route.ts`
+- Provider client (browser-side, replaces the old server proxy): `submodule/curlgeco_frontend/src/lib/hf/chatCompletion.ts`
 - Core store: `submodule/curlgeco_frontend/src/lib/store.ts`
 - Brand assets: `artifacts/brand/` and `submodule/curlgeco_frontend/public/curlgeco.logo.svg`
 - Helm chart: `artifacts/deployment/charts/curlgeco` (gitignored, local only)
@@ -30,5 +29,6 @@ curlgeco is a Next.js App Router AI playground. The app supports local endpoint 
 ## Deployment notes
 
 - The production host is `curlgeco.ugeco.in`.
-- The Helm chart targets the shared public `nginx` ingress and `letsencrypt-ugeco-dns` cluster issuer on the target AKS platform.
-- Docker and docker-compose files live in `submodule/curlgeco_frontend/`.
+- Primary deployment target is Cloudflare Pages: Next.js (Static HTML Export) preset, root directory `submodule/curlgeco_frontend`, build command `npx next build`, output directory `out`.
+- The Helm chart (local-only, gitignored) targets the shared public `nginx` ingress and `letsencrypt-ugeco-dns` cluster issuer on the target AKS platform, serving the same static export via nginx.
+- Docker and docker-compose files live in `submodule/curlgeco_frontend/`; the Dockerfile builds the static export and serves it with `nginxinc/nginx-unprivileged` on port `8080`. `NEXT_PUBLIC_*` values must be passed as Docker build args (or set in the shell) — they're inlined at build time, not read at container runtime.

@@ -156,8 +156,8 @@ export default function DashboardPage() {
             </h2>
             <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">
               The frontend remains local-first for endpoint secrets and test runs.
-              Supabase adds user access without introducing a custom backend, while
-              the Next.js proxy keeps provider calls centralized through <code>/api/chat</code>.
+              Supabase adds user access without introducing a custom backend, and
+              provider calls are made directly from the browser to each configured endpoint.
             </p>
           </div>
           <div className="rounded-3xl border border-primary/15 bg-white/4 px-4 py-3 text-sm text-muted">

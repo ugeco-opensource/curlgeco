@@ -2,6 +2,7 @@ artifacts/scripts/venv
 artifacts/deployment/
 submodule/curlgeco_frontend/node_modules
 submodule/curlgeco_frontend/.next
+submodule/curlgeco_frontend/out
 submodule/curlgeco_frontend/.vercel
 .env
 .env.local

@@ -14,6 +14,7 @@ import {
 import { useAppStore, ensureActiveThread, makeAssistantMessage, makeUserMessage } from "@/lib/store";
 import type { ChatMessage } from "@/lib/types";
 import { readChatStream } from "@/lib/hf/streaming";
+import { requestChatCompletion } from "@/lib/hf/chatCompletion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -96,10 +97,8 @@ export default function ChatPage() {
     const start = performance.now();
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const response = await requestChatCompletion(
+        {
           endpoint,
           model: modelId,
           messages: payloadMessages.map(({ role, content }) => ({ role, content })),
@@ -107,9 +106,9 @@ export default function ChatPage() {
           max_tokens: activeThread.params.maxTokens,
           top_p: activeThread.params.topP,
           stream: activeThread.params.stream,
-        }),
-        signal: controller.signal,
-      });
+        },
+        controller.signal
+      );
 
       if (!response.ok) {
         const text = await response.text();

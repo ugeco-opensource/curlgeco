@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { CheckCheck, Copy, Loader2, Play, Plus } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import type { TestCase, TestResult } from "@/lib/types";
+import { requestChatCompletion } from "@/lib/hf/chatCompletion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -100,18 +101,14 @@ export default function TestsPage() {
     if (!targetEndpoint) throw new Error("Endpoint not found");
 
     const start = performance.now();
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        endpoint: targetEndpoint,
-        model: modelId || targetEndpoint.defaultModel,
-        messages: [{ role: "user", content: testCase.prompt }],
-        temperature: testCase.paramsOverrides?.temperature ?? 0.4,
-        max_tokens: testCase.paramsOverrides?.maxTokens ?? 200,
-        top_p: testCase.paramsOverrides?.topP ?? 1,
-        stream: false,
-      }),
+    const response = await requestChatCompletion({
+      endpoint: targetEndpoint,
+      model: modelId || targetEndpoint.defaultModel,
+      messages: [{ role: "user", content: testCase.prompt }],
+      temperature: testCase.paramsOverrides?.temperature ?? 0.4,
+      max_tokens: testCase.paramsOverrides?.maxTokens ?? 200,
+      top_p: testCase.paramsOverrides?.topP ?? 1,
+      stream: false,
     });
     const latency = Math.round(performance.now() - start);
 

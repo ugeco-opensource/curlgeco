@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Loader2, PlugZap, Plus, Rocket } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import type { EndpointConfig, ProviderType } from "@/lib/types";
+import { requestChatCompletion } from "@/lib/hf/chatCompletion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -107,18 +108,14 @@ export default function ConnectionsPage() {
     setTestingId(endpoint.id);
     const start = performance.now();
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          endpoint,
-          model: endpoint.defaultModel,
-          messages: [{ role: "user", content: "Hello" }],
-          temperature: 0.2,
-          max_tokens: 50,
-          top_p: 1,
-          stream: false,
-        }),
+      const response = await requestChatCompletion({
+        endpoint,
+        model: endpoint.defaultModel,
+        messages: [{ role: "user", content: "Hello" }],
+        temperature: 0.2,
+        max_tokens: 50,
+        top_p: 1,
+        stream: false,
       });
       const latency = Math.round(performance.now() - start);
       if (!response.ok) {
@@ -155,7 +152,7 @@ export default function ConnectionsPage() {
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Endpoint Connections</h1>
           <p className="text-sm text-muted">
-            Store endpoints locally, validate them through the proxy, and keep curlgeco deployment-ready.
+            Store endpoints locally, validate them with a live test call, and keep curlgeco deployment-ready.
           </p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

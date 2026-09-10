@@ -1,10 +1,7 @@
 # Low-Level Design - curlgeco
 
 ## Runtime topology
-- Service: single Next.js process
-- Internal HTTP surface:
-  - `GET /api/health`
-  - `POST /api/chat`
+- Service: static export, no application server
 - UI routes:
   - `/`
   - `/auth`
@@ -13,7 +10,7 @@
   - `/tests`
   - `/logs`
   - `/settings`
-- Container port: `3000`
+- Container port (Docker/Helm path only): `8080` (nginx-unprivileged)
 - Kubernetes service port: `80`
 - Kubernetes ingress class: `nginx`
 - Kubernetes host: `curlgeco.ugeco.in`
@@ -47,9 +44,9 @@
 - Injection point: root layout
 - Behavior: script and noscript container render only when the env var is non-empty
 
-## Proxy contract
-### `POST /api/chat`
-- Request body:
+## Provider client contract
+### `requestChatCompletion` (`src/lib/hf/chatCompletion.ts`)
+- Input:
   - `endpoint`: selected endpoint config, including `baseUrl`, `apiKey`, and optional headers
   - `model`
   - `messages`
@@ -59,19 +56,10 @@
   - `stream`
 - Behavior:
   - validates endpoint presence
-  - forwards request to `{baseUrl}/chat/completions`
+  - calls `{baseUrl}/chat/completions` directly from the browser via `fetch`
   - passes bearer token from `endpoint.apiKey`
-  - returns upstream JSON for non-stream calls
-  - returns SSE stream for stream calls
-  - forwards upstream error bodies without wrapping them in fake SSE responses
-
-### `GET /api/health`
-- Response fields:
-  - `status`
-  - `service`
-  - `authEnabled`
-  - `authRequired`
-  - `gtmEnabled`
+  - returns the raw `Response`; callers read upstream JSON for non-stream calls or read the stream for stream calls
+  - relies on the target endpoint allowing cross-origin requests (no server hop to route around CORS)
 
 ## Frontend implementation notes
 - `src/components/providers/AppProviders.tsx`: runtime config + auth provider root
@@ -90,17 +78,18 @@
 - `NEXT_PUBLIC_REQUIRE_AUTH`: enables auth enforcement
 - `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anon key
-- `NODE_ENV`: runtime mode for container and chart
+
+All `NEXT_PUBLIC_*` values are inlined into the JS bundle at build time (`next build`); none of them are read at runtime.
 
 ## Container and Helm details
 - Dockerfile (`submodule/curlgeco_frontend/Dockerfile`):
   - installs dependencies from `package-lock.json`
-  - builds standalone Next.js output
-  - runs `node server.js`
-- Helm chart:
+  - takes `NEXT_PUBLIC_*` values as build `ARG`s so they're baked into the static export
+  - builds the static export (`next build` with `output: "export"`) into `out/`
+  - serves `out/` with `nginxinc/nginx-unprivileged` on port `8080`
+- Helm chart (local-only, gitignored):
   - deployment, service, ingress
-  - `/api/health` readiness and liveness probes
-  - env vars passed directly from chart values
+  - `/` readiness and liveness probes on port `8080` (no app-level health endpoint; nginx serving the index page is the signal)
   - TLS secret default: `curlgeco-ugeco-in-tls`
   - issuer default: `letsencrypt-ugeco-dns`
 

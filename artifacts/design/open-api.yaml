@@ -1,35 +1,33 @@
 openapi: 3.1.0
 info:
-  title: curlgeco Edge API
-  version: 0.1.0
+  title: curlgeco Provider Contract
+  version: 0.2.0
   description: >
-    App-owned HTTP surface for the curlgeco frontend. Authentication is handled
-    externally by Supabase client SDK flows and is therefore not modeled here.
+    curlgeco has no backend of its own — it's a static export. This describes
+    the OpenAI-compatible `/chat/completions` contract that a configured
+    endpoint (Hugging Face router, a dedicated endpoint, or a generic
+    OpenAI-compatible provider) must implement, since the browser calls it
+    directly. Authentication into curlgeco itself is handled externally by
+    the Supabase client SDK and is not modeled here.
 servers:
-  - url: http://localhost:3000
-  - url: https://curlgeco.ugeco.in
+  - url: "{baseUrl}"
+    description: The user-configured endpoint base URL (per EndpointConfig)
+    variables:
+      baseUrl:
+        default: https://router.huggingface.co/v1
 paths:
-  /api/health:
-    get:
-      summary: Health probe
-      operationId: getHealth
-      responses:
-        "200":
-          description: Service health payload
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HealthResponse"
-  /api/chat:
+  /chat/completions:
     post:
-      summary: Proxy an OpenAI-compatible chat completion request
-      operationId: postChatProxy
+      summary: Chat completion (OpenAI-compatible), called directly from the browser
+      operationId: postChatCompletion
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ChatProxyRequest"
+              $ref: "#/components/schemas/ChatCompletionRequest"
       responses:
         "200":
           description: Non-stream JSON completion or streaming SSE response
@@ -40,51 +38,79 @@ paths:
             text/event-stream:
               schema:
                 type: string
-                description: SSE stream emitted by the upstream provider
-        "400":
-          description: Invalid request payload
+                description: SSE stream emitted by the provider
+        "4XX":
+          description: Provider-reported client error (e.g. bad request, auth failure)
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: Proxy failure
+        "5XX":
+          description: Provider-side failure
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: "Sent as `Authorization: Bearer <endpoint.apiKey>` from the browser"
   schemas:
-    HealthResponse:
+    EndpointConfig:
       type: object
+      description: Stored in browser storage; never sent to curlgeco itself, only used locally to build the request below.
       required:
-        - status
-        - service
-        - authEnabled
-        - authRequired
-        - gtmEnabled
+        - id
+        - name
+        - provider
+        - baseUrl
+        - apiKey
+        - defaultModel
       properties:
-        status:
+        id:
           type: string
-          example: ok
-        service:
+        name:
           type: string
-          example: curlgeco
-        authEnabled:
-          type: boolean
-        authRequired:
-          type: boolean
-        gtmEnabled:
-          type: boolean
-    ChatProxyRequest:
+        provider:
+          type: string
+          enum:
+            - HF_ROUTER
+            - HF_DEDICATED_ENDPOINT
+            - OPENAI_COMPATIBLE_GENERIC
+        baseUrl:
+          type: string
+          format: uri
+        apiKey:
+          type: string
+          description: Provider API key supplied by the user workspace; sent as a bearer token directly to the provider
+        defaultModel:
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+    ChatMessage:
       type: object
       required:
-        - endpoint
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum:
+            - system
+            - user
+            - assistant
+        content:
+          type: string
+    ChatCompletionRequest:
+      type: object
+      required:
         - model
         - messages
       properties:
-        endpoint:
-          $ref: "#/components/schemas/EndpointConfig"
         model:
           type: string
           example: Qwen/Qwen2.5-7B-Instruct
@@ -109,52 +135,6 @@ components:
         stream:
           type: boolean
           example: true
-    EndpointConfig:
-      type: object
-      required:
-        - id
-        - name
-        - provider
-        - baseUrl
-        - apiKey
-        - defaultModel
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        provider:
-          type: string
-          enum:
-            - HF_ROUTER
-            - HF_DEDICATED_ENDPOINT
-            - OPENAI_COMPATIBLE_GENERIC
-        baseUrl:
-          type: string
-          format: uri
-        apiKey:
-          type: string
-          description: Provider API key supplied by the user workspace
-        defaultModel:
-          type: string
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-    ChatMessage:
-      type: object
-      required:
-        - role
-        - content
-      properties:
-        role:
-          type: string
-          enum:
-            - system
-            - user
-            - assistant
-        content:
-          type: string
     ChatCompletionResponse:
       type: object
       properties:

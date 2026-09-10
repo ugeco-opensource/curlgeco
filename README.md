@@ -1,6 +1,6 @@
 # curlgeco
 
-curlgeco is a Next.js AI playground frontend for testing Hugging Face and OpenAI-compatible chat endpoints. It ships as a local-first workspace with optional Supabase authentication, Google Tag Manager wiring, Docker packaging, and a Helm chart for deployment to the UGECO AKS cluster at `curlgeco.ugeco.in`.
+curlgeco is a Next.js AI playground frontend for testing Hugging Face and OpenAI-compatible chat endpoints. It's a static export (no backend) — provider calls go straight from the browser to each configured endpoint. It ships as a local-first workspace with optional Supabase authentication, Google Tag Manager wiring, Docker packaging, and a Helm chart for deployment to the UGECO AKS cluster at `curlgeco.ugeco.in`.
 
 ## Repo layout
 
@@ -39,7 +39,15 @@ cd submodule/curlgeco_frontend
 docker compose up --build
 ```
 
-The frontend's `Dockerfile` builds the app in standalone mode and serves it on port `3000`.
+The frontend's `Dockerfile` builds a static export and serves it with nginx on port `3000` (container port `8080`). `NEXT_PUBLIC_*` values are baked in at build time via Docker build args, sourced from `.env` in that directory.
+
+## Cloudflare Pages
+
+- Framework preset: **Next.js (Static HTML Export)**
+- Root directory: `submodule/curlgeco_frontend`
+- Build command: `npx next build`
+- Build output directory: `out`
+- Set the `NEXT_PUBLIC_*` env vars in the Pages project settings (they're inlined at build time)
 
 ## Helm / AKS
 
