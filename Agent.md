@@ -15,8 +15,19 @@ curlgeco is a Next.js App Router AI playground, built as a static export (`outpu
 - Auth provider: `submodule/curlgeco_frontend/src/components/providers/AuthProvider.tsx`
 - Provider client (browser-side, replaces the old server proxy): `submodule/curlgeco_frontend/src/lib/hf/chatCompletion.ts`
 - Core store: `submodule/curlgeco_frontend/src/lib/store.ts`
-- Brand assets: `artifacts/brand/` and `submodule/curlgeco_frontend/public/curlgeco.logo.svg`
+- Brand pack (single source of truth): `submodule/curlgeco_frontend/curlgeco-brand-pack/`
+- Runtime brand assets: `submodule/curlgeco_frontend/public/brand/` and the favicon set in `public/`
 - Helm chart: `artifacts/deployment/charts/curlgeco` (gitignored, local only)
+
+## Design system
+
+- **Dark only.** There is no light theme and no theme toggle; `AppSettings` has no `theme` field.
+- Palette is one accent on true neutrals: yellow `#facc15` on ink `#0b0b0e`. Neutrals must stay
+  untinted — no warm greys, no yellow gradients washed over surfaces.
+- Type: Inter Tight (sans) + JetBrains Mono (mono), loaded in `layout.tsx`.
+- Two cascade traps in `globals.css` / `layout.tsx`, both commented in place: the `*` border-color
+  rule must stay inside `@layer base`, and the `next/font` variables must sit on `<html>`.
+- Full spec: `submodule/curlgeco_frontend/curlgeco-brand-pack/README.md`.
 
 ## Product behavior
 

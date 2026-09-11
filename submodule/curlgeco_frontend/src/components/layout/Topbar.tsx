@@ -29,7 +29,7 @@ export default function Topbar() {
   const selectedEndpoint = endpoints.find((item) => item.id === settings.defaultEndpointId);
 
   return (
-    <div className="sticky top-0 z-40 flex flex-col gap-4 border-b border-primary/10 bg-[rgba(10,10,10,0.82)] px-6 py-4 backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between">
+    <div className="sticky top-0 z-40 flex flex-col gap-4 border-b border-border bg-[rgba(11,11,14,0.85)] px-6 py-4 backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-primary/20 bg-white/6">
           <Sparkles className="h-4 w-4 text-primary" />
@@ -76,7 +76,7 @@ export default function Topbar() {
         <div className="flex flex-wrap items-center gap-2">
           {enabled && user ? (
             <>
-              <div className="hidden items-center gap-2 rounded-full border border-primary/15 bg-white/4 px-3 py-2 text-xs text-muted sm:flex">
+              <div className="hidden items-center gap-2 rounded-full border border-border bg-white/5 px-3 py-2 text-xs text-muted sm:flex">
                 <CircleUserRound className="h-4 w-4 text-primary" />
                 <span className="max-w-[220px] truncate">{user.email}</span>
               </div>
@@ -100,11 +100,7 @@ export default function Topbar() {
             <Button variant="outline" asChild>
               <Link href="/auth">Sign in</Link>
             </Button>
-          ) : (
-            <div className="rounded-full border border-primary/15 bg-white/4 px-3 py-2 text-xs uppercase tracking-[0.24em] text-muted">
-              Guest mode
-            </div>
-          )}
+          ) : null}
           <Button
             onClick={() => {
               addThread();

@@ -1,0 +1,35 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1000,
+      "h": 960
+    },
+    {
+      "file": "Colour.dc.html",
+      "x": 1120,
+      "y": 0,
+      "w": 1000,
+      "h": 1160
+    },
+    {
+      "file": "Typography.dc.html",
+      "x": 0,
+      "y": 1280,
+      "w": 1000,
+      "h": 900
+    },
+    {
+      "file": "Usage.dc.html",
+      "x": 1120,
+      "y": 1280,
+      "w": 1000,
+      "h": 780
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}

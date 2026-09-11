@@ -5,7 +5,7 @@ curlgeco is a Next.js AI playground frontend for testing Hugging Face and OpenAI
 ## Repo layout
 
 - `submodule/curlgeco_frontend/`: Next.js application code, Dockerfile, and docker-compose.yml
-- `artifacts/brand/`: logo asset and brand guide
+- `submodule/curlgeco_frontend/curlgeco-brand-pack/`: logos, favicons, fonts, and the brand spec
 - `artifacts/design/`: HLD, LLD, OpenAPI, and Supabase schema
 - `artifacts/scripts/`: developer utility scripts
 - `artifacts/prompt.md`: original product brief
@@ -61,7 +61,7 @@ Helm chart and deploy tooling are kept out of this public repo (see `artifacts/d
 ## Docs
 
 - [Frontend README](submodule/curlgeco_frontend/README.md)
-- [Brand Guide](artifacts/brand/brand.md)
+- [Brand Pack](submodule/curlgeco_frontend/curlgeco-brand-pack/README.md)
 - [HLD](artifacts/design/HLD.md)
 - [LLD](artifacts/design/LLD.md)
 - [OpenAPI](artifacts/design/open-api.yaml)

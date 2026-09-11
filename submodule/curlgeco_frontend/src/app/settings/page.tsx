@@ -10,8 +10,6 @@ import { useAppStore } from "@/lib/store";
 import { buildExportPayload, parseImportPayload } from "@/lib/storage/export";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 
 export default function SettingsPage() {
   const auth = useAuth();
@@ -22,7 +20,6 @@ export default function SettingsPage() {
   const testResults = useAppStore((state) => state.testResults);
   const logs = useAppStore((state) => state.logs);
   const settings = useAppStore((state) => state.settings);
-  const updateSettings = useAppStore((state) => state.updateSettings);
   const setTestResults = useAppStore((state) => state.setTestResults);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -62,24 +59,8 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Settings</h1>
-        <p className="text-sm text-muted">Theme, environment status, and data portability.</p>
+        <p className="text-sm text-muted">Environment status and data portability.</p>
       </div>
-      <Card className="glass-panel space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-semibold text-foreground">Theme</p>
-            <p className="text-xs text-muted">Dark is the default curlgeco look.</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Label className="text-xs">Light</Label>
-            <Switch
-              checked={settings.theme === "dark"}
-              onCheckedChange={(checked) => updateSettings({ theme: checked ? "dark" : "light" })}
-            />
-            <Label className="text-xs">Dark</Label>
-          </div>
-        </div>
-      </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="glass-panel space-y-4">

@@ -1,28 +1,34 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/layout/AppShell";
 import AppProviders from "@/components/providers/AppProviders";
 import { getRuntimeConfig } from "@/lib/runtime-config.server";
 import { Toaster } from "sonner";
 
-const spaceGrotesk = Space_Grotesk({
+const interTight = Inter_Tight({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-inter-tight",
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "curlgeco",
   description: "AI playground for model testing, prompt evaluation, and streaming chat.",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export default function RootLayout({
@@ -32,9 +38,14 @@ export default function RootLayout({
 }>) {
   const config = getRuntimeConfig();
 
+  // Font variables belong on <html>: --font-sans is declared on :root, so a
+  // variable defined further down the tree resolves to invalid there.
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${spaceGrotesk.variable} ${plexMono.variable} bg-background text-foreground antialiased`}>
+    <html
+      lang="en"
+      className={`${interTight.variable} ${jetbrainsMono.variable} scroll-smooth`}
+    >
+      <body className="bg-background text-foreground antialiased">
         {config.gtmId ? (
           <>
             <Script id="gtm-loader" strategy="afterInteractive">

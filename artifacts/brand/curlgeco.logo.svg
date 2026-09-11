@@ -1,8 +1,0 @@
-<svg width="640" height="200" viewBox="0 0 640 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="8" y="8" width="624" height="184" rx="36" fill="#FFF9E8"/>
-  <rect x="32" y="44" width="112" height="112" rx="28" fill="#111111"/>
-  <text x="88" y="112" text-anchor="middle" font-family="'IBM Plex Mono', 'JetBrains Mono', monospace" font-size="32" font-weight="600" fill="#FFD54F">{ }</text>
-  <text x="176" y="118" font-family="'Space Grotesk', 'Sora', sans-serif" font-size="72" font-weight="700" letter-spacing="-0.04em" fill="#111111">curl</text>
-  <text x="354" y="118" font-family="'Space Grotesk', 'Sora', sans-serif" font-size="72" font-weight="700" letter-spacing="-0.04em" fill="#FFD54F">geco</text>
-  <text x="178" y="152" font-family="'IBM Plex Mono', 'JetBrains Mono', monospace" font-size="18" letter-spacing="0.18em" fill="#5B5343">AI PLAYGROUND BY UGECO</text>
-</svg>

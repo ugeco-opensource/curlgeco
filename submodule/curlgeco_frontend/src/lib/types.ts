@@ -76,5 +76,4 @@ export interface LogEntry {
 export interface AppSettings {
   defaultEndpointId?: string;
   defaultModelId?: string;
-  theme: "dark" | "light";
 }

@@ -25,7 +25,6 @@ const defaultParams: ChatParams = {
 const defaultSettings: AppSettings = {
   defaultEndpointId: undefined,
   defaultModelId: undefined,
-  theme: "dark",
 };
 
 interface AppState {

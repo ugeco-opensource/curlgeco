@@ -256,7 +256,7 @@ export default function AuthPage() {
                 or anon key is missing.
               </p>
             </div>
-            <div className="rounded-3xl border border-primary/15 bg-white/4 p-4 text-sm leading-7 text-muted">
+            <div className="rounded-3xl border border-border bg-white/5 p-4 text-sm leading-7 text-muted">
               <p>
                 Required env vars:
                 <br />

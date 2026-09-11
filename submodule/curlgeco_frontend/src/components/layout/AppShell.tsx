@@ -9,7 +9,6 @@ import { useRuntimeConfig } from "@/components/providers/RuntimeConfigProvider";
 import Footer from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
-import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 const mobileLinks = [
@@ -22,16 +21,11 @@ const mobileLinks = [
 ];
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
-  const theme = useAppStore((state) => state.settings.theme);
   const pathname = usePathname();
   const router = useRouter();
   const auth = useAuth();
   const config = useRuntimeConfig();
   const isAuthRoute = pathname === "/auth";
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
 
   useEffect(() => {
     if (!config.requireAuth || isAuthRoute || !auth.initialized || !auth.enabled) {
@@ -100,7 +94,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <Sidebar />
         <div className="flex min-h-screen flex-1 flex-col">
           <Topbar />
-          <div className="border-b border-primary/10 px-4 py-3 lg:hidden">
+          <div className="border-b border-border px-4 py-3 lg:hidden">
             <div className="flex gap-2 overflow-x-auto scrollbar-thin">
               {mobileLinks.map((link) => (
                 <Link

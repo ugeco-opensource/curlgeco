@@ -9,3 +9,6 @@ submodule/curlgeco_frontend/.vercel
 .env.development
 .env.production
 .env.test
+ugeco-brand-pack
+.DS_Store
+submodule/curlgeco_frontend/curlgeco-brand-pack/canvas/curlgeco-brand-guide.html
